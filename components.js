@@ -5,8 +5,5 @@ class StoryApp extends React.Component {
 }
 
 // ES2015
-let output = document.getElementByID("story-app");
-ReactDom.render(<StoryApp />, output);
-
-// Standard Javascript
-//ReactDom.render("<StoryApp />", document.getElementByID('story-app'));
+let output = document.getElementById("story-app");
+ReactDOM.render(<StoryApp />, output);
