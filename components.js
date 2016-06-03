@@ -1,6 +1,12 @@
 class StoryApp extends React.Component {
   render() {
-    return <div>Hello World React</div>;
+    const topics = ["Angular", "React", "Firebase", "HMTL"];
+    return <div className='test'>
+    <h3>Hello World React</h3>
+    <ul>
+    {topics.map( topic => <li>{topic}</li>)}
+    </ul>
+    </div>;
   }
 }
 
