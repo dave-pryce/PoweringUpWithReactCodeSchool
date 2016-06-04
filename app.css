@@ -1,3 +1,7 @@
-.test {
-  color : blue;
+body{
+  max-width : 550px;
+  margin : auto;
+  font-family: Roboto-Medium;
+  font-size: 16px;
+  color: #000000;
 }
