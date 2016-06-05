@@ -2,15 +2,16 @@ body{
   font-family: Roboto-Medium;
   font-size: 16px;
   color: #000000;
+  background: #FFFFFF;
 }
 
 
 .comment-box {
 background: #E7E7E7;
-border: 1px solid #979797;
+/*border: 1px solid #979797;*/
 max-width : 550px;
 margin : auto;
-padding : 10px;
+padding : 20px;
 }
 
 
