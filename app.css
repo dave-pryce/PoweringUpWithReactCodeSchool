@@ -5,7 +5,6 @@ body{
   background: #FFFFFF;
 }
 
-
 .comment-box {
 background: #E7E7E7;
 /*border: 1px solid #979797;*/
@@ -21,5 +20,12 @@ border: 1px solid #BEBEBE;
 box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
 border-radius: 3px;
 padding: 15px;
+}
 
+.comment-list {
+  background: #FFFFFF;
+  border: 1px solid #BEBEBE;
+  box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
+  border-radius: 3px;
+  padding: 15px;
 }
