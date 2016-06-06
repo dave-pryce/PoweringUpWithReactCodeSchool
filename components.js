@@ -39,13 +39,41 @@ class CommentBox extends React.Component {
 
 // Comment Component
 class Comment extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      isAbusive: false
+    };
+  }
+
+
   render() {
+
+    let commentBody;
+
+    if (this.state.isAbusive){
+      commentBody = <em>Abusive Content</em>
+      } else {
+      commentBody = this.props.body;
+    }
+
    return(
   <div>
-  <p className='comment'>{this.props.author} says: {this.props.body}</p>
+  <p className='comment'>{this.props.author} says: {commentBody}</p>
+  <button onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
   </div>
   );
   }
+
+_toggleAbuse(event) {
+  event.preventDefault();
+
+  this.setState({
+    isAbusive: !this.state.isAbusive
+  });
+}
+
 }
 
 
