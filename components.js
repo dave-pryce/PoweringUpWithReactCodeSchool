@@ -10,6 +10,7 @@ class CommentBox extends React.Component {
       <h4>{comments.length} Comments</h4>
       {comments}
       </div>
+      <CommentForm />
     </div>
   );
   }
@@ -61,7 +62,7 @@ class Comment extends React.Component {
    return(
   <div>
   <p className='comment'>{this.props.author} says: {commentBody}</p>
-  <button onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
+  <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
   </div>
   );
   }
@@ -75,6 +76,35 @@ _toggleAbuse(event) {
 }
 
 }
+
+
+
+
+// Comment form
+class CommentForm extends React.Component {
+  render () {
+    return (
+      <form className = "comment-form">
+      <h3>New Comment</h3>
+      <input placeholder="Name:" ref={input => this.author = input}/>
+      <textarea
+        placeholder="Comment:"
+        ref={textarea => this._body = textarea}>
+      </textarea>
+      </form>
+    );
+  }
+
+  _handleSubmit(event) {
+    event.preventDefault();
+    this.props.addComment(this._author.value, this._body.value);
+    this._author.value = '';
+    this._body.value = '';
+  }
+
+}
+
+
 
 
 // Header Components
@@ -92,8 +122,6 @@ class Header extends React.Component {
     );
   }
 }
-
-
 
 
 // ES2015

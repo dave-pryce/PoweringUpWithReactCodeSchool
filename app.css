@@ -28,4 +28,32 @@ padding: 15px;
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
   border-radius: 3px;
   padding: 15px;
+  margin-bottom: 20px;
+}
+
+.comment-form {
+  background: #FFFFFF;
+  border: 1px solid #BEBEBE;
+  box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
+  border-radius: 3px;
+  padding: 15px;
+}
+
+
+.buttonAbuse {
+  background: #d93434;
+  background-image: linear-gradient(to bottom, #d93434, #87132a);
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 10px 20px 10px 20px;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+
+.buttonAbuse:hover {
+  background: #d93434;
+  background-image: linear-gradient(to bottom, #87132a, #d93434);
+  text-decoration: none;
 }
