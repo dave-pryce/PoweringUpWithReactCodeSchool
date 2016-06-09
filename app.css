@@ -40,6 +40,38 @@ padding: 15px;
 }
 
 
+input, textarea {
+  background: #FFFFFF;
+  border: 1px solid #BEBEBE;
+  box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
+  border-radius: 3px;
+  padding: 5px;
+  margin: 10px;
+  display : block;
+  min-width: 400px;
+  font-family: Roboto Medium;
+}
+
+
+.buttonSubmit {
+  background: #d93434;
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 10px 20px 10px 20px;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+
+.buttonSubmit:hover {
+  background: #d93434;
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  text-decoration: none;
+}
+
+
 .buttonAbuse {
   background: #d93434;
   background-image: linear-gradient(to bottom, #d93434, #87132a);
