@@ -1,46 +1,5 @@
-
-// comment Box componenet
-class CommentBox extends React.Component {
-  render() {
-    const comments = this._getComments();
-    return(
-    <div className="comment-box">
-    <Header />
-      <div className ="comment-list">
-      <h4>{comments.length} Comments</h4>
-      {comments}
-      </div>
-      <CommentForm />
-    </div>
-  );
-  }
-
-// get comments _ for custom
-  _getComments(){
-    const commentList = [
-      {id:1, author: "Dan Pringle", body: "Angular is cool" },
-      {id:2, author: "Jonny Appleseed", body: "React is awesome"},
-      {id:3, author: "Mandy Moon", body:"Firebase oh year"},
-      {id:4, author: "Sammy Smith", body:"Components Rock"}
-    ];
-
-    return commentList.map((comment) => {
-      return (
-        <Comment
-        author={comment.author}
-        body={comment.body}
-        key={comment.id}
-        />
-      );
-    });
-  }
-
-}
-
-
-// Comment Component
+//// Comment Component
 class Comment extends React.Component {
-
   constructor(){
     super();
     this.state = {
@@ -48,49 +7,98 @@ class Comment extends React.Component {
     };
   }
 
-
   render() {
-
     let commentBody;
-
     if (this.state.isAbusive){
       commentBody = <em>Abusive Content</em>
       } else {
       commentBody = this.props.body;
     }
-
    return(
-  <div>
-  <p className='comment'>{this.props.author} says: {commentBody}</p>
-  <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
-  </div>
-  );
+        <div>
+        <p className='comment'>{this.props.author} says: {commentBody}</p>
+        <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
+        </div>
+        );
   }
 
 _toggleAbuse(event) {
   event.preventDefault();
+}
+}
+///// Comment Component end
 
-  this.setState({
-    isAbusive: !this.state.isAbusive
-  });
+
+/////// Comment Box component
+class CommentBox extends React.Component {
+  constructor(){
+    super();
+
+    this.state = {
+      showComments: false,
+      comments: [
+      {id:1, author: "Dan Pringle", body: "Angular is cool" },
+      {id:2, author: "Jonny Appleseed", body: "React is awesome"},
+      {id:3, author: "Mandy Moon", body:"Firebase oh year"},
+      {id:4, author: "Sammy Smith", body:"Components Rock"}
+    ]
+  };
 }
 
+    render() {
+      const comments = this._getComments();
+      return(
+      <div className="comment-box">
+      <Header />
+        <div className ="comment-list">
+        <h4>{comments.length} Comments</h4>
+        {comments}
+        </div>
+        <CommentForm addComment={this._addComment.bind(this)}/>
+      </div>
+    );
 }
 
+          // get comments _ for custom
+            _getComments(){
+              return this.state.comments.map((comment) => {
+                return (<Comment
+                  author={comment.author}
+                  body={comment.body}
+                  key={comment.id}
+                  />);
+              });
+            }
+
+      // add comments
+      _addComment(commentAuthor, commentBody){
+              let comment = {
+                id: this.state.comments.length + 1,
+                author: commentAuthor,
+                body: commentBody
+              };
+
+        this.setState({
+          comments: this.state.comments.concat([comment])
+        });
+      }
+}
+///// Comment End
 
 
 
-// Comment form
+/////// Comment form
 class CommentForm extends React.Component {
   render () {
     return (
-      <form className = "comment-form">
+      <form className = "comment-form" onSubmit={this._handleSubmit.bind(this)}>
       <h3>New Comment</h3>
-      <input placeholder="Name:" ref={input => this.author = input}/>
+      <input placeholder="Name:" ref={input => this._author = input}/>
       <textarea
         placeholder="Comment:"
         ref={textarea => this._body = textarea}>
       </textarea>
+      <button type="submit" className="buttonSubmit">Add Comment</button>
       </form>
     );
   }
@@ -101,23 +109,18 @@ class CommentForm extends React.Component {
     this._author.value = '';
     this._body.value = '';
   }
-
 }
+//////// Comment form end
 
 
 
 
-// Header Components
+///// Header Components
 class Header extends React.Component {
   render() {
-    const topics = ["Angular", "React", "Firebase"];
     return(
       <div className="header">
       <h1 className="header">Hello World in React</h1>
-      <h3>Topics Being Discussed</h3>
-      <ul>
-      {topics.map( topic => <li>{topic}</li>)}
-      </ul>
       </div>
     );
   }
