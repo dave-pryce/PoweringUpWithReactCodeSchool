@@ -1,3 +1,68 @@
+/////// Comment Box component
+class CommentBox extends React.Component {
+  constructor(){
+    super();
+
+    this.state = {
+      showComments: false,
+      comments: []
+  };
+}
+
+    render() {
+      const comments = this._getComments();
+      return(<div className="comment-box">
+             <Header />
+             <div className ="comment-list">
+             <h4>{comments.length} Comments</h4>
+             {comments}
+             </div>
+             <CommentForm addComment={this._addComment.bind(this)}/>
+             </div>);
+           }
+
+                          // get comments _ for custom
+                            _getComments(){
+                              return this.state.comments.map((comment) => {
+                                return (<Comment
+                                  author={comment.author}
+                                  body={comment.body}
+                                  key={comment.id}
+                                  />);
+                              });
+                            }
+
+                          // add comments
+                          _addComment(commentAuthor, commentBody){
+                                  let comment = {
+                                    id: this.state.comments.length + 1,
+                                    author: commentAuthor,
+                                    body: commentBody
+                                  };
+
+                            this.setState({
+                              comments: this.state.comments.concat([comment])
+                            });
+                          }
+
+
+                          _fetchComments() {
+                        $.ajax({
+                          method: 'GET',
+                          url: 'comments.json',
+                          success: (comments) => this.setState({comments})
+                        });
+                      }
+
+                      componentWillMount() {
+                        this._fetchComments();
+                      }
+
+}
+///// Comment End
+
+
+
 //// Comment Component
 class Comment extends React.Component {
   constructor(){
@@ -14,87 +79,22 @@ class Comment extends React.Component {
       } else {
       commentBody = this.props.body;
     }
-   return(
-        <div>
-        <p className='comment'>{this.props.author} says: {commentBody}</p>
-        <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
-        </div>
-        );
+
+   return(<div>
+          <p className='comment'>{this.props.author} says: {commentBody}</p>
+          <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
+          </div>);
   }
 
-_toggleAbuse(event) {
-  event.preventDefault();
-}
+                              _toggleAbuse(event) {
+                                event.preventDefault();
+                                this.setState({
+                                isAbusive: !this.state.isAbusive
+                              });
+                              }
 }
 ///// Comment Component end
 
-
-/////// Comment Box component
-class CommentBox extends React.Component {
-  constructor(){
-    super();
-
-    this.state = {
-      showComments: false,
-      comments: []
-  };
-}
-
-    render() {
-      const comments = this._getComments();
-      return(
-      <div className="comment-box">
-      <Header />
-        <div className ="comment-list">
-        <h4>{comments.length} Comments</h4>
-        {comments}
-        </div>
-        <CommentForm addComment={this._addComment.bind(this)}/>
-      </div>
-    );
-}
-
-          // get comments _ for custom
-            _getComments(){
-              return this.state.comments.map((comment) => {
-                return (<Comment
-                  author={comment.author}
-                  body={comment.body}
-                  key={comment.id}
-                  />);
-              });
-            }
-
-      // add comments
-      _addComment(commentAuthor, commentBody){
-              let comment = {
-                id: this.state.comments.length + 1,
-                author: commentAuthor,
-                body: commentBody
-              };
-
-        this.setState({
-          comments: this.state.comments.concat([comment])
-        });
-      }
-
-
-
-
-      _fetchComments() {
-    $.ajax({
-      method: 'GET',
-      url: 'comments.json',
-      success: (comments) => this.setState({comments})
-    });
-  }
-
-  componentWillMount() {
-    this._fetchComments();
-  }
-
-}
-///// Comment End
 
 
 
