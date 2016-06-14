@@ -36,12 +36,7 @@ class CommentBox extends React.Component {
 
     this.state = {
       showComments: false,
-      comments: [
-      {id:1, author: "Dan Pringle", body: "Angular is cool" },
-      {id:2, author: "Jonny Appleseed", body: "React is awesome"},
-      {id:3, author: "Mandy Moon", body:"Firebase oh year"},
-      {id:4, author: "Sammy Smith", body:"Components Rock"}
-    ]
+      comments: []
   };
 }
 
@@ -82,6 +77,22 @@ class CommentBox extends React.Component {
           comments: this.state.comments.concat([comment])
         });
       }
+
+
+
+
+      _fetchComments() {
+    $.ajax({
+      method: 'GET',
+      url: 'comments.json',
+      success: (comments) => this.setState({comments})
+    });
+  }
+
+  componentWillMount() {
+    this._fetchComments();
+  }
+
 }
 ///// Comment End
 
