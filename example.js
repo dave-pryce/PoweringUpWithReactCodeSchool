@@ -77,7 +77,7 @@ class CommentBox extends React.Component {
   _fetchComments() {
     $.ajax({
       method: 'GET',
-      url: 'comments.json',
+      url: 'commentsexample.json',
       success: (comments) => this.setState({comments})
     });
   }
@@ -184,3 +184,8 @@ class CommentForm extends React.Component {
     this.setState({ characters: 0  });
   }
 }
+
+
+// ES2015
+let output = document.getElementById("comment-box");
+ReactDOM.render(<CommentBox />, output);

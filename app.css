@@ -1,5 +1,5 @@
 body{
-  font-family: Roboto Medium;
+  font-family: Arial;
   font-size: 16px;
   color: #000000;
   background: #FFFFFF;
@@ -46,10 +46,12 @@ input, textarea {
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
   border-radius: 3px;
   padding: 5px;
-  margin: 10px;
+  margin: auto;
+  margin-bottom: 10px;
   display : block;
-  min-width: 400px;
-  font-family: Roboto Medium;
+  min-width: 300px;
+  font-family: Arial;
+  font-size: 16px;
 }
 
 
@@ -59,7 +61,7 @@ input, textarea {
   border-radius: 10px;
   font-family: Arial;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 16px;
   padding: 10px 20px 10px 20px;
   margin-bottom: 5px;
   text-decoration: none;
