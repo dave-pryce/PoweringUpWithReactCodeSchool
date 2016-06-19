@@ -18,7 +18,7 @@ padding : 20px;
 background: #FFFFFF;
 border: 1px solid #BEBEBE;
 box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.50);
-border-radius: 5px;
+border-radius: 3px;
 padding: 15px;
 }
 
@@ -73,8 +73,7 @@ input, textarea {
   text-decoration: none;
 }
 
-
-.buttonAbuse {
+.buttonDelete {
   background: #d93434;
   background-image: linear-gradient(to bottom, #d93434, #87132a);
   border-radius: 10px;
@@ -86,8 +85,13 @@ input, textarea {
   text-decoration: none;
 }
 
-.buttonAbuse:hover {
+.buttonDelete:hover {
   background: #d93434;
   background-image: linear-gradient(to bottom, #87132a, #d93434);
   text-decoration: none;
+}
+
+.link {
+  font-size: 13px;
+  float : right;
 }

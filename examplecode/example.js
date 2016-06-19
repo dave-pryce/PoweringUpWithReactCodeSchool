@@ -113,7 +113,7 @@ class Comment extends React.Component {
         </p>
         <div className="comment-actions">
           <a href="#">Delete comment</a>
-          <a href="#" onClick={this._toggleAbuse.bind(this)}>Report as Abuse</a>
+          <a href="#" className="link" onClick={this._toggleAbuse.bind(this)}>Report as Abuse</a>
         </div>
       </div>
     );

@@ -47,6 +47,16 @@ class CommentBox extends React.Component {
                           }
 
 
+                          // delete comments
+                          _deleteComment(commentID) {
+                            const comments = this.state.comments.filter(
+                              comment => comment.id !== commentID
+                            );
+
+                            this.setState({ comments });
+                          }
+
+
                           _fetchComments() {
                         $.ajax({
                           method: 'GET',
@@ -83,7 +93,8 @@ class Comment extends React.Component {
 
    return(<div>
           <p className='comment'>{this.props.author} says: {commentBody}</p>
-          <button className="buttonAbuse" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</button>
+          <a href="#" className="link" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</a>
+          <button className="buttonDelete"> Delete</button>
           </div>);
   }
 
@@ -93,6 +104,15 @@ class Comment extends React.Component {
                                 isAbusive: !this.state.isAbusive
                               });
                               }
+
+
+                             _handleDelete(event) {
+                               event.preventDefault();
+
+                              if (confirm('Are you sure?')) {
+                                this.props.onDelete(this.props.id);
+                              }
+                             }
 }
 ///// Comment Component end
 
