@@ -8,14 +8,18 @@ class CommentBox extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this._fetchComments();
+  }
+
   render() {
     const comments = this._getComments();
     return(
       <div className="comment-box">
         <CommentForm addComment={this._addComment.bind(this)} />
-
-        {this._getPopularMessage(comments.length)}
-        <h3 className="comment-count">{this._getCommentsTitle(comments.length)}</h3>
+        //<CommentAvatarList avatars={this._getAvatars()} />
+        //{this._getPopularMessage(comments.length)}
+        //<h3 className="comment-count">{this._getCommentsTitle(comments.length)}</h3>
         <div className="comment-list">
           {comments}
         </div>
@@ -23,14 +27,20 @@ class CommentBox extends React.Component {
     );
   }
 
+/*
+  _getAvatars() {
+    return this.state.comments.map(comment => comment.avatarUrl);
+  }
+
   _getPopularMessage(commentCount) {
     const POPULAR_COUNT = 10;
     if (commentCount > POPULAR_COUNT) {
        return (
-         <div>This post is getting really popular, dont miss out!</div>
+         <div>This post is getting really popular, do not miss out!</div>
        );
     }
   }
+  */
 
   _getComments() {
     return this.state.comments.map((comment) => {
@@ -38,11 +48,13 @@ class CommentBox extends React.Component {
                id={comment.id}
                author={comment.author}
                body={comment.body}
-               avatarUrl={comment.avatarUrl}
+               //avatarUrl={comment.avatarUrl}
+               onDelete={this._deleteComment.bind(this)}
                key={comment.id} />);
     });
   }
 
+/*
   _getCommentsTitle(commentCount) {
     if (commentCount === 0) {
       return 'No comments yet';
@@ -52,17 +64,28 @@ class CommentBox extends React.Component {
       return `${commentCount} comments`;
     }
   }
+  */
 
   _addComment(commentAuthor, commentBody) {
     let comment = {
       id: Math.floor(Math.random() * (9999 - this.state.comments.length + 1)) + this.state.comments.length,
       author: commentAuthor,
-      body: commentBody,
-      avatarUrl: 'images/default-avatar.png'
+      body: commentBody//,
+      //avatarUrl: 'images/default-avatar.png'
     };
 
     this.setState({
       comments: this.state.comments.concat([comment])
+    });
+  }
+
+  _fetchComments() {
+    $.ajax({
+      method: 'GET',
+      url: '/examplecode/commentsexample.json',
+      success: (comments) => {
+        this.setState({ comments });
+      }
     });
   }
 
@@ -72,67 +95,6 @@ class CommentBox extends React.Component {
     );
 
     this.setState({ comments });
-  }
-
-  _fetchComments() {
-    $.ajax({
-      method: 'GET',
-      url: 'commentsexample.json',
-      success: (comments) => this.setState({comments})
-    });
-  }
-
-  componentWillMount() {
-    this._fetchComments();
-  }
-}
-
-class Comment extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isAbusive: false
-    };
-  }
-
-  render() {
-    let commentBody;
-
-    if (!this.state.isAbusive) {
-      commentBody = this.props.body;
-    } else {
-      commentBody = <em>Content marked as abusive</em>;
-    }
-
-    return(
-      <div className="comment">
-        <img src={this.props.avatarUrl} alt={`${this.props.author}'s picture`} />
-        <p className="comment-header">{this.props.author}</p>
-        <p className="comment-body">
-          {commentBody}
-        </p>
-        <div className="comment-actions">
-          <a href="#">Delete comment</a>
-          <a href="#" className="link" onClick={this._toggleAbuse.bind(this)}>Report as Abuse</a>
-        </div>
-      </div>
-    );
-  }
-
-  _toggleAbuse(event) {
-    event.preventDefault();
-
-    this.setState({
-      isAbusive: !this.state.isAbusive
-    });
-  }
-
-  _handleDelete(event) {
-    event.preventDefault();
-
-    if (confirm('Are you sure?')) {
-      this.props.onDelete(this.props.id);
-    }
   }
 }
 
@@ -185,6 +147,108 @@ class CommentForm extends React.Component {
   }
 }
 
+/*
+class CommentAvatarList extends React.Component {
+  render() {
+    const { avatars = [] } = this.props;
+    return (
+      <div className="comment-avatars">
+        <h4>Authors</h4>
+        <ul>
+          {avatars.map((avatarUrl, i) => (
+            <li key={i}>
+              <img src={avatarUrl} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}*/
+
+class Comment extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isAbusive: false
+    };
+  }
+
+  render() {
+    let commentBody;
+    if (!this.state.isAbusive) {
+      commentBody = this.props.body;
+    } else {
+      commentBody = <em>Content marked as abusive</em>;
+    }
+    return(
+      <div className="comment">
+
+        //<img src={this.props.avatarUrl} alt={`${this.props.author}'s picture`} />
+
+        <p className="comment-header">{this.props.author}</p>
+        <p className="comment-body">{commentBody}</p>
+
+        <div className="comment-actions">
+          <RemoveCommentConfirmation onDelete={this._handleDelete.bind(this)} />
+          <a href="#" onClick={this._toggleAbuse.bind(this)}>Report as Abuse</a>
+        </div>
+      </div>
+    );
+  }
+
+  _toggleAbuse(event) {
+    event.preventDefault();
+
+    this.setState({
+      isAbusive: !this.state.isAbusive
+    });
+  }
+
+  _handleDelete() {
+    this.props.onDelete(this.props.id);
+  }
+}
+
+class RemoveCommentConfirmation extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      showConfirm: false
+    };
+  }
+
+  render() {
+    let confirmNode;
+    if (this.state.showConfirm) {
+      return (
+        <span>
+          <a href="" onClick={this._confirmDelete.bind(this)}>Yes </a> - or - <a href="" onClick={this._toggleConfirmMessage.bind(this)}> No</a>
+        </span>
+      );
+    } else {
+      confirmNode = <a href="" onClick={this._toggleConfirmMessage.bind(this)}>Delete comment?</a>;
+    }
+    return (
+      <span>{confirmNode}</span>
+    );
+  }
+
+  _toggleConfirmMessage(e) {
+    e.preventDefault();
+
+    this.setState({
+      showConfirm: !this.state.showConfirm
+    });
+  }
+
+  _confirmDelete(e) {
+    e.preventDefault();
+    this.props.onDelete();
+  }
+}
 
 // ES2015
 let output = document.getElementById("comment-box");

@@ -9,6 +9,11 @@ class CommentBox extends React.Component {
   };
 }
 
+
+componentWillMount() {
+  this._fetchComments();
+}
+
     render() {
       const comments = this._getComments();
       return(<div className="comment-box">
@@ -28,6 +33,7 @@ class CommentBox extends React.Component {
                                   id={comment.id}
                                   author={comment.author}
                                   body={comment.body}
+                                  onDelete={this._deleteComment.bind(this)}
                                   key={comment.id}
                                   />);
                               });
@@ -47,29 +53,27 @@ class CommentBox extends React.Component {
                           }
 
 
+                          _fetchComments() {
+                            $.ajax({
+                              method: 'GET',
+                              url: 'comments.json',
+                              success: (comments) => {
+                                this.setState({ comments });
+                              }
+                            });
+                          }
+
                           // delete comments
-                          _deleteComment(commentID) {
+                          _deleteComment(commentid) {
                             const comments = this.state.comments.filter(
-                              comment => comment.id !== commentID
+                              comment => comment.id !== commentid
                             );
 
                             this.setState({ comments });
                           }
 
 
-                          _fetchComments() {
-                        $.ajax({
-                          method: 'GET',
-                          url: 'comments.json',
-                          success: (comments) => this.setState({comments})
-                        });
                       }
-
-                      componentWillMount() {
-                        this._fetchComments();
-                      }
-
-}
 ///// Comment End
 
 
@@ -94,7 +98,7 @@ class Comment extends React.Component {
    return(<div>
           <p className='comment'>{this.props.author} says: {commentBody}</p>
           <a href="#" className="link" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</a>
-          <button className="buttonDelete"> Delete</button>
+          <button className="buttonDelete" onDelete={this._handleDelete.bind(this)}> Delete</button>
           </div>);
   }
 
@@ -107,6 +111,7 @@ class Comment extends React.Component {
 
 
                              _handleDelete(event) {
+                               console.log('delete');
                                event.preventDefault();
 
                               if (confirm('Are you sure?')) {
