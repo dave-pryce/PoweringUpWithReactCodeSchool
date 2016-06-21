@@ -64,9 +64,9 @@ componentWillMount() {
                           }
 
                           // delete comments
-                          _deleteComment(commentid) {
+                          _deleteComment(commentID) {
                             const comments = this.state.comments.filter(
-                              comment => comment.id !== commentid
+                              comment => comment.id !== commentID
                             );
 
                             this.setState({ comments });

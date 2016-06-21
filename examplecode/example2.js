@@ -17,8 +17,6 @@ class CommentBox extends React.Component {
     return(
       <div className="comment-box">
         <CommentForm addComment={this._addComment.bind(this)} />
-        <CommentAvatarList avatars={this._getAvatars()} />
-        {this._getPopularMessage(comments.length)}
         <h3 className="comment-count">{this._getCommentsTitle(comments.length)}</h3>
         <div className="comment-list">
           {comments}
@@ -28,18 +26,7 @@ class CommentBox extends React.Component {
   }
 
 
-  _getAvatars() {
-    return this.state.comments.map(comment => comment.avatarUrl);
-  }
 
-  _getPopularMessage(commentCount) {
-    const POPULAR_COUNT = 10;
-    if (commentCount > POPULAR_COUNT) {
-       return (
-         <div>This post is getting really popular, do not miss out!</div>
-       );
-    }
-  }
 
 
   _getComments() {
@@ -48,7 +35,6 @@ class CommentBox extends React.Component {
                id={comment.id}
                author={comment.author}
                body={comment.body}
-               //avatarUrl={comment.avatarUrl}
                onDelete={this._deleteComment.bind(this)}
                key={comment.id} />);
     });
@@ -70,8 +56,7 @@ class CommentBox extends React.Component {
     let comment = {
       id: Math.floor(Math.random() * (9999 - this.state.comments.length + 1)) + this.state.comments.length,
       author: commentAuthor,
-      body: commentBody,
-      avatarUrl: 'images/default-avatar.png'
+      body: commentBody
     };
 
     this.setState({
@@ -148,23 +133,6 @@ class CommentForm extends React.Component {
 }
 
 
-class CommentAvatarList extends React.Component {
-  render() {
-    const { avatars = [] } = this.props;
-    return (
-      <div className="comment-avatars">
-        <h4>Authors</h4>
-        <ul>
-          {avatars.map((avatarUrl, i) => (
-            <li key={i}>
-              <img src={avatarUrl} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
-}
 
 
 class Comment extends React.Component {
@@ -186,13 +154,11 @@ class Comment extends React.Component {
     return(
       <div className="comment">
 
-        <img src={this.props.avatarUrl} alt={`${this.props.author}'s picture`} />
-
         <p className="comment-header">{this.props.author}</p>
         <p className="comment-body">{commentBody}</p>
 
         <div className="comment-actions">
-          <RemoveCommentConfirmation onDelete={this._handleDelete.bind(this)} />
+          <button onDelete={this._handleDelete.bind(this)} >Delete</button>
           <a href="#" onClick={this._toggleAbuse.bind(this)}>Report as Abuse</a>
         </div>
       </div>
@@ -212,44 +178,7 @@ class Comment extends React.Component {
   }
 }
 
-class RemoveCommentConfirmation extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      showConfirm: false
-    };
-  }
-
-  render() {
-    let confirmNode;
-    if (this.state.showConfirm) {
-      return (
-        <span>
-          <a href="" onClick={this._confirmDelete.bind(this)}>Yes </a> - or - <a href="" onClick={this._toggleConfirmMessage.bind(this)}> No</a>
-        </span>
-      );
-    } else {
-      confirmNode = <a href="" onClick={this._toggleConfirmMessage.bind(this)}>Delete comment?</a>;
-    }
-    return (
-      <span>{confirmNode}</span>
-    );
-  }
-
-  _toggleConfirmMessage(e) {
-    e.preventDefault();
-
-    this.setState({
-      showConfirm: !this.state.showConfirm
-    });
-  }
-
-  _confirmDelete(e) {
-    e.preventDefault();
-    this.props.onDelete();
-  }
-}
 
 // ES2015
 let output = document.getElementById("comment-box");
