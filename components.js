@@ -42,7 +42,8 @@ componentWillMount() {
                           // add comments
                           _addComment(commentAuthor, commentBody){
                                   let comment = {
-                                    id: this.state.comments.length + 1,
+                                    //id: this.state.comments.length + 1,
+                                    id: Math.floor(Math.random() * (9999 - this.state.comments.length + 1)) + this.state.comments.length,
                                     author: commentAuthor,
                                     body: commentBody
                                   };
