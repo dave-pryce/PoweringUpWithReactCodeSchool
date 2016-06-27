@@ -64,9 +64,9 @@ componentWillMount() {
                           }
 
                           // delete comments
-                          _deleteComment(commentID) {
+                          _deleteComment(commentid) {
                             const comments = this.state.comments.filter(
-                              comment => comment.id !== commentID
+                              comment => comment.id !== commentid
                             );
 
                             this.setState({ comments });
@@ -98,7 +98,7 @@ class Comment extends React.Component {
    return(<div>
           <p className='comment'>{this.props.author} says: {commentBody}</p>
           <a href="#" className="link" onClick={this._toggleAbuse.bind(this)}>Mark as Abusive</a>
-          <button className="buttonDelete" onDelete={this._handleDelete.bind(this)}> Delete</button>
+          <button className="buttonDelete" onClick={this._handleDelete.bind(this)}> Delete</button>
           </div>);
   }
 
@@ -111,7 +111,7 @@ class Comment extends React.Component {
 
 
                              _handleDelete(event) {
-                               console.log('delete');
+                               //console.log('delete');
                                event.preventDefault();
 
                               if (confirm('Are you sure?')) {
